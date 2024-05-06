@@ -5,6 +5,7 @@ import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "@/maincomponets/Layout";
 import HomePage from "@/maincomponets/HomePage";
+import FriendUser from "@/maincomponets/FriendUser";
 export default function Home() {
   return (
     <>
@@ -12,7 +13,7 @@ export default function Home() {
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
-            <Route path="/friend/:address" element={<HomePage />} />
+            <Route path="/friend/:address" element={<FriendUser />} />
           </Route>
         </Routes>
       </BrowserRouter>

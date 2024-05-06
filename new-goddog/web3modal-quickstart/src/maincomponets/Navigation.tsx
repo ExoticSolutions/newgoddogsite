@@ -11,14 +11,18 @@ function Navigation() {
       style={{ fontSize: "13px" }}
     >
       <div className="flex justify-start gap-3">
-        <img
-          src="https://dd.dexscreener.com/ds-data/tokens/base/0xddf7d080c82b8048baae54e376a3406572429b4e.png?size=lg&key=18ea46"
-          alt=""
-          className="lg:w-18 md:w-10 sm:w-8 w-10"
-        />
+        <a href="/">
+          <img
+            src="https://dd.dexscreener.com/ds-data/tokens/base/0xddf7d080c82b8048baae54e376a3406572429b4e.png?size=lg&key=18ea46"
+            alt=""
+            className="lg:w-18 md:w-10 sm:w-8 w-10"
+          />
+        </a>
+
         <h3 className="text-white mt-2">Swap</h3>
-        <h3 className="text-white mt-2">Explore</h3>
+
         <h3 className="text-white mt-2">Nfts</h3>
+        <h3 className="text-white mt-2">FriendMint</h3>
       </div>
       <div className="mt-1.5 hidden md:block sm:hidden">
         <SearchBar />

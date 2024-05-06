@@ -1,5 +1,6 @@
-export const friendTechEndpoint: string = "https://prod-api.kosetto.com/";
-
+export const friendTechEndpoint: string = "http://127.0.0.1:8080/";
+export const goddogShareAddress: string =
+  "0x7b202496C103DA5BEDFE17aC8080B49Bd0a333f1";
 export interface FriendTechSearchResultsInterface {
   address: string;
   displayPrice: string;

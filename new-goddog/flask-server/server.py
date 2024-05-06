@@ -123,21 +123,35 @@ def get_address_holdings(address):
 
 
 #getting buy price of a specific share
-@app.route("/get/share-buy/price/<address>")
+#if u get checksum err you gotta do in temrinal source venv/bin/activate
+@app.route("/share-buy/price/<address>")
 def get_share_buy_price(address):
+    print(address)
     try:
         contract = friendtech.Contract()
         response = contract.getBuyPriceAfterFee(address, 1)
-        print(response)
-        return {"buy price": response/ 10**18}    
+        return {"price": response / 10**18}
     except Exception as e:
-        return {"error": f"Error occurred most likely unathorized {str(e)}"}
+        print(e)
+        return {"error": str(e)}, 500
+    
+
+@app.route("/share-buy/price/<address>/<amount>")
+def get_share_buy_price_specific(address, amount):
+    print(address)
+    try:
+        contract = friendtech.Contract()
+        response = contract.getBuyPriceAfterFee(address, int(amount))
+        return {"price": response / 10**18}
+    except Exception as e:
+        print(e)
+        return {"error": str(e)}, 500
         
 @app.route("/get/share-sell/price/<address>")
 def get_share_sell_price(address):
     try:
         contract = friendtech.Contract()
-        response = contract.getSellPriceAfterFee(address , 1)
+        response = contract.getSellPriceAfterFee(address, 1)
         print(response)
         return {"sell price": response / 10**18}
     except Exception as e:
@@ -150,7 +164,7 @@ def get_share_supply(address):
         contract = friendtech.Contract()
         response = contract.getSharesSupply(address)
         print(response)
-        return {"shares supply": response}
+        return response
     except Exception as e:
         return {"error": f"Error occurred most likely unauthorized {str(e)}"}
 
