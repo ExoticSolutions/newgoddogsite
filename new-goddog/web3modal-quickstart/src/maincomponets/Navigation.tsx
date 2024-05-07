@@ -2,6 +2,7 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import SearchBar from "./SearchBar";
+import { Link } from "react-router-dom";
 function Navigation() {
   // <w3m-button />
   // <w3m-network-button />
@@ -22,7 +23,9 @@ function Navigation() {
         <h3 className="text-white mt-2">Swap</h3>
 
         <h3 className="text-white mt-2">Nfts</h3>
-        <h3 className="text-white mt-2">FriendMint</h3>
+        <Link to={"/friendmint"} className="text-white mt-2">
+          FriendMint
+        </Link>
       </div>
       <div className="mt-1.5 hidden md:block sm:hidden">
         <SearchBar />

@@ -14,12 +14,12 @@ my_jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHg5MjQ1ZDRlNzg5Y
 def get_recently_joined_users():
     try:
         platform = friendtech.Platform()
-        response = platform.getRecentlyJoinedUsers()
+        response = platform.getGlobalActivity()
         
         if response.status_code == 200:
             user_info = response.json()
             print(user_info)
-            return user_info
+            return {"users": user_info}
         else: 
             return {"error": f"an error occured please check req url and try again {response.status_code}"}, response.status_code
     except Exception as e:

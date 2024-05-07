@@ -2,21 +2,23 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "@/styles/Home.module.css";
 import { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Layout from "@/maincomponets/Layout";
 import HomePage from "@/maincomponets/HomePage";
 import FriendUser from "@/maincomponets/FriendUser";
+import FriendMint from "@/maincomponets/FriendMint";
 export default function Home() {
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/friend/:address" element={<FriendUser />} />
+            <Route path="/friendmint" element={<FriendMint />} />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 }

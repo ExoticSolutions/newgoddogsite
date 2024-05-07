@@ -21,7 +21,10 @@ export interface FriendTechSearchResultsInterface {
   twitterUsername: string;
   userBio: string;
   watchListCount: number;
-  isActive: boolean;
+  isActive: any;
+  result: any;
+  map: any;
+  searchResults: any;
 }
 
 export function uintConverter(uintTarget: string) {

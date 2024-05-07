@@ -19,7 +19,7 @@ function FriendUser() {
   const [shouldWrap, setShouldWrap] = useState(true);
   const [input, setInput] = useState("");
 
-  const [recievedVal, setRecievedVal] = useState("");
+  const [recievedVal, setRecievedVal] = useState("0");
   const [wrapPayAmountFinal, setWrapPayAmountFinal] = useState("");
   const location = useLocation();
   const params = useParams();
@@ -47,8 +47,25 @@ function FriendUser() {
   });
 
   useEffect(() => {
-    console.log(location.state);
-    setTargetUser(location.state.targetUser);
+    if (location.state !== null) {
+      console.log(location.state);
+      setTargetUser(location.state.targetUser);
+    } else {
+      console.log(location);
+      const ca = location.pathname.slice(8, location.pathname.length);
+      const query = friendTechEndpoint + `search/address/${ca}`;
+      axios
+        .get(query)
+        .then(function (results) {
+          console.log(results);
+          setTargetUser(results.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+      console.log(ca);
+    }
   }, []);
   function getWrapPayValue(targetShareAddress: string) {
     const query =
@@ -137,7 +154,7 @@ function FriendUser() {
               <a
                 href={`https://basescan.org/address/${targetUser?.address}`}
                 target="_blank"
-                className="mt-2 overflow-hidden"
+                className="mt-2 overflow-hidden text-[10px]"
               >
                 {targetUser?.address}
               </a>
@@ -180,7 +197,7 @@ function FriendUser() {
               <a
                 href={`https://www.friend.tech/${targetUser?.address}`}
                 target="_blank"
-                className="overflow-hidden"
+                className="overflow-hidden text-[10px]"
               >
                 https://www.friend.tech/{targetUser?.address}
               </a>
@@ -193,7 +210,7 @@ function FriendUser() {
               <a
                 href={`https://www.twitter.com/${targetUser?.twitterUsername}`}
                 target="_blank"
-                className="overflow-hidden"
+                className="overflow-hidden text-[10px]"
               >
                 https://www.twitter.com/{targetUser?.twitterUsername}
               </a>
@@ -202,7 +219,7 @@ function FriendUser() {
         </div>
         <div className="border border-slate-500 rounded-xl bg-black p-2">
           <div className="flex justify-between p-2 text-sm font-bold">
-            <h3 className="text-white ">Swap</h3>
+            <h3 className="text-white ">Mint & Burn</h3>
             <h3 className="text-white">
               Key Price: {uintConverter(targetUser?.displayPrice || "120202")} Ξ
               /share
@@ -212,7 +229,7 @@ function FriendUser() {
             <div className="border rounded-xl bg-stone-850 border-slate-500 p-3">
               <h3 className="text-stone-400 font-bold text-sm mb-2">
                 {shouldWrap ? (
-                  "You Pay"
+                  "You Mint"
                 ) : (
                   <div className="flex justify-start gap-1">
                     <img
@@ -220,7 +237,7 @@ function FriendUser() {
                       alt=""
                       className="w-5 h-5 rounded-full"
                     />
-                    <h3>{"You Sell"}</h3>
+                    <h3>{"You Burn"}</h3>
                   </div>
                 )}
               </h3>
@@ -237,12 +254,16 @@ function FriendUser() {
                   setInput(inputVal);
                   console.log(inputVal);
                   if (shouldWrap) {
+                    console.log(
+                      String(Math.floor(Number(inputVal) / currentPrice))
+                    );
                     setRecievedVal(
                       String(Math.floor(Number(inputVal) / currentPrice))
                     );
                     console.log("wrap true");
                   } else {
                     console.log("wrap false");
+                    console.log(String(Number(inputVal) * currentPrice));
                     setRecievedVal(String(Number(inputVal) * currentPrice));
                   }
                 }}
@@ -253,10 +274,8 @@ function FriendUser() {
                   onClick={() => {
                     if (shouldWrap) {
                       setShouldWrap(false);
-                      setRecievedVal("0");
                     } else {
                       setShouldWrap(true);
-                      setRecievedVal("0");
                     }
                   }}
                 >
@@ -295,7 +314,7 @@ function FriendUser() {
                 type="text"
                 className="border border-slate-700 rounded-xl p-8 text-2xl text-stone-400"
                 placeholder="0"
-                defaultValue={recievedVal || "0"}
+                value={recievedVal}
               />
 
               <div className="flex justify-center mt-2">
@@ -310,7 +329,7 @@ function FriendUser() {
                     }
                   }}
                 >
-                  Swap
+                  {shouldWrap ? "Mint" : "Burn"}
                 </Button>
               </div>
             </div>

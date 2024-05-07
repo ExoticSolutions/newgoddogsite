@@ -94,7 +94,7 @@ function HomeCard() {
     });
   }
   return (
-    <Card className="border md:w-[350px] lg:w-[500px] bg-black rounded-xl text-white">
+    <Card className="border border-slate-500 md:w-[350px] lg:w-[500px] bg-black rounded-xl text-white">
       <CardHeader>
         <CardTitle className="">
           <img

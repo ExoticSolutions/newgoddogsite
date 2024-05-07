@@ -1,13 +1,17 @@
 import { Button } from "@/components/ui/button";
 import HomeCard from "./HomeCard";
+import { Link, NavLink } from "react-router-dom";
 function HomePage() {
   return (
     <div>
+      {/* <div className="absolute bg-gradient-to-r from-stone-900 w-full lg:h-[355px] md:h-[415px]  h-[604px]"></div> */}
+
       <div
         className="grid grid-rows-2 p-10"
         style={{
-          backgroundImage: "url()",
+          backgroundImage: "url(https://i.imgur.com/BmeqKzn.gif)",
           backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       >
         <div className="mt-10">
@@ -26,24 +30,25 @@ function HomePage() {
           </Button>
         </div>
       </div>
-      <div className="border p-10">
+
+      <div className="border border-slate-500 p-10">
         <div className="grid md:grid-cols-2 gap-2 ">
-          <div className="border">
+          <div className=" p-2">
             <div className="flex justify-center">
-              <h3 className="text-white md:text-2xl font-mono font-bold text-center">
+              <h3 className="text-white md:text-2xl font-mono font-bold text-center mt-1">
                 Guide to minting & burning shares
               </h3>
             </div>
-            <ul className="mt-3 font-lighter text-md p-4">
-              <li className="text-white">1. Open the explore tab</li>
-              <li className="text-white mt-1">
+            <ul className="mt-3 font-lighter font-mono text-sm p-5">
+              <li className="text-white">1. Open the FriendMint tab</li>
+              <li className="text-white mt-3">
                 2. Search for desired user to mint or burn
               </li>
-              <li className="text-white mt-1">
+              <li className="text-white mt-3">
                 3. Follow native wallet instructions to complete transactipn
               </li>
             </ul>
-            <h3 className="text-white text-center text-xs mb-3">
+            <h3 className="text-white text-center font-mono text-xs mb-3">
               congrats you are now a freindMint expert!
             </h3>
             <div className="flex justify-center">
@@ -54,12 +59,12 @@ function HomePage() {
               />
             </div>
           </div>
-          <div className="border md:flex md: justify-center">
+          <div className=" md:flex md: justify-center">
             <HomeCard />
           </div>
         </div>
       </div>
-      <footer className="border p-3">
+      <footer className="border border-slate-500 p-3">
         <div className="flex justify-between gap-2">
           <img
             src="https://dd.dexscreener.com/ds-data/tokens/base/0xddf7d080c82b8048baae54e376a3406572429b4e.png?size=lg&key=18ea46"
