@@ -3,7 +3,18 @@ import { useLocation, useParams } from "react-router-dom";
 import {
   FriendTechSearchResultsInterface,
   friendTechEndpoint,
+  FriendTechFollowers,
+  dissectPriceActivity,
+  FriendTechUserActivity,
 } from "@/variables";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+} from "recharts";
 import { useContractWrite } from "wagmi";
 import friendTechABI from "@/abi/FreindTechABI";
 import { Input } from "@/components/ui/input";
@@ -16,6 +27,10 @@ function FriendUser() {
   const [alerts, setAlerts] = useState({ title: null, message: null });
   const [targetUser, setTargetUser] =
     useState<FriendTechSearchResultsInterface | null>(null);
+  const [followers, setFollowers] = useState<FriendTechFollowers | null>(null);
+  const [chartData, setChartData] = useState<FriendTechUserActivity | null>(
+    null
+  );
   const [shouldWrap, setShouldWrap] = useState(true);
   const [input, setInput] = useState("");
 
@@ -48,7 +63,6 @@ function FriendUser() {
 
   useEffect(() => {
     if (location.state !== null) {
-      console.log(location.state);
       setTargetUser(location.state.targetUser);
     } else {
       console.log(location);
@@ -57,7 +71,6 @@ function FriendUser() {
       axios
         .get(query)
         .then(function (results) {
-          console.log(results);
           setTargetUser(results.data);
         })
         .catch(function (error) {
@@ -66,6 +79,53 @@ function FriendUser() {
 
       console.log(ca);
     }
+  }, []);
+
+  useEffect(() => {
+    const ca = location.pathname.slice(8, location.pathname.length);
+    console.log(ca);
+    axios
+      .get(
+        `https://prod-api.kosetto.com/users/${ca}/followers-list?requester=${ca}
+`,
+        {
+          headers: {
+            "Content-Length": 73470,
+          },
+        }
+      )
+      .then(function (results) {
+        console.log(results.data.followersList);
+        console.log(results.data.followersList.length);
+        setFollowers(results.data.followersList);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    const ca = location.pathname.slice(8, location.pathname.length);
+    console.log(ca);
+
+    axios
+      .get(`https://prod-api.kosetto.com/users/${ca}/account-trade-activity`, {
+        headers: {
+          Authorization:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHg5MjQ1ZDRlNzg5Y2Y5ZWY0YTJhZDE4MDJhZDlmODZkZWQzNGVjZGNiIiwiaWF0IjoxNzE1MDM5OTAwLCJleHAiOjE3MTc2MzE5MDB9.LfBn7S7_F0FTZfwg0NhNy8ZQPXG0zFpfqds-ikv-_n4",
+        },
+      })
+      .then(function (response) {
+        const dissectedPriceActivity: any = dissectPriceActivity(
+          response.data.users,
+          ca
+        );
+        setChartData(dissectedPriceActivity);
+        console.log(chartData);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }, []);
   function getWrapPayValue(targetShareAddress: string) {
     const query =
@@ -128,6 +188,34 @@ function FriendUser() {
         <div className="border border-slate-500 border-t-0 mb-2 border-b-0">
           <div className="flex justify-start text-white text-3xl font-bold p-2">
             <h3>{targetUser?.ftName}</h3>
+          </div>
+          <div className="flex justify-start gap-1">
+            <h3 className="text-white text-[10px] mt-2 me-2 ms-2">
+              Followers:
+            </h3>
+            {followers !== null ? (
+              <>
+                {followers.map((item: FriendTechFollowers, index: number) => {
+                  if (index < 3) {
+                    return (
+                      <>
+                        <img
+                          src={item?.ftPfpUrl}
+                          alt=""
+                          className="w-7 h-7 rounded-full"
+                        />
+                      </>
+                    );
+                  }
+                  return null;
+                })}
+              </>
+            ) : null}
+            <h3 className="text-white text-[10px] mt-2">
+              {targetUser?.followerCount ? (
+                <>+ {targetUser?.followerCount - 3} friends</>
+              ) : null}
+            </h3>
           </div>
           <div className="mt-1 flex justify-start gap-1 text-xs p-2 gap-2">
             <div className="border border-slate-500 text-white p-1 rounded-xl bg-blue-800">
@@ -217,120 +305,176 @@ function FriendUser() {
             </div>
           </div>
         </div>
-        <div className="border border-slate-500 rounded-xl bg-black p-2">
-          <div className="flex justify-between p-2 text-sm font-bold">
-            <h3 className="text-white ">Mint & Burn</h3>
-            <h3 className="text-white">
-              Key Price: {uintConverter(targetUser?.displayPrice || "120202")} Ξ
-              /share
-            </h3>
+        <div className="grid grid-cols-2">
+          <div className="border border-slate-500 rounded-xl text-white flex justify-center p-4">
+            {chartData !== null ? (
+              <>
+                <div className="grid grid-rows-1">
+                  <div className="flex justify-start">
+                    <img
+                      src="https://www.friend.tech/keysIcon3d.png"
+                      alt=""
+                      className="w-4 h-4"
+                    />
+                    <h3 className="text-white text-[10px] ms-2">
+                      Recent Share Activity
+                    </h3>
+                  </div>
+                  <div className="">
+                    <LineChart
+                      width={330}
+                      height={300}
+                      data={chartData}
+                      className=""
+                    >
+                      <Line
+                        type="monotone"
+                        dataKey="price"
+                        stroke="blue"
+                        fill="gray"
+                      />
+                      <CartesianGrid stroke="gray" />
+                      <XAxis dataKey={"date"} />
+                      <YAxis dataKey={"price"} />
+                      <Tooltip />
+                    </LineChart>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="p-24">
+                  <div className="text-center">
+                    <h3 className="text-white font-mono text-[12px]">
+                      Could not retrieve recent share activity
+                    </h3>
+                    <div className="flex justify-center">
+                      <img
+                        src="https://forums.frontier.co.uk/attachments/1000012145-png.391294/"
+                        alt=""
+                        className="w-10 h-10"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
-          <div className="border border-transparent">
-            <div className="border rounded-xl bg-stone-850 border-slate-500 p-3">
-              <h3 className="text-stone-400 font-bold text-sm mb-2">
-                {shouldWrap ? (
-                  "You Mint"
-                ) : (
-                  <div className="flex justify-start gap-1">
-                    <img
-                      src={targetUser?.ftPfpUrl}
-                      alt=""
-                      className="w-5 h-5 rounded-full"
-                    />
-                    <h3>{"You Burn"}</h3>
-                  </div>
-                )}
+          <div className="border border-slate-500 rounded-xl bg-black p-2">
+            <div className="flex justify-between p-2 text-sm font-bold">
+              <h3 className="text-white ">Mint & Burn</h3>
+              <h3 className="text-white">
+                Key Price: {uintConverter(targetUser?.displayPrice || "120202")}{" "}
+                Ξ /share
               </h3>
-              <Input
-                type="text"
-                className="border border-slate-700 rounded-xl p-8 text-2xl text-stone-400"
-                placeholder="0"
-                onChange={(e) => {
-                  const currentPrice = uintConverter(
-                    targetUser?.displayPrice || "6969696969"
-                  );
-                  console.log(currentPrice);
-                  const inputVal = e.target.value;
-                  setInput(inputVal);
-                  console.log(inputVal);
-                  if (shouldWrap) {
-                    console.log(
-                      String(Math.floor(Number(inputVal) / currentPrice))
+            </div>
+            <div className="border border-transparent">
+              <div className="border rounded-xl bg-stone-850 border-slate-500 p-3">
+                <h3 className="text-stone-400 font-bold text-sm mb-2">
+                  {shouldWrap ? (
+                    "You Mint"
+                  ) : (
+                    <div className="flex justify-start gap-1">
+                      <img
+                        src={targetUser?.ftPfpUrl}
+                        alt=""
+                        className="w-5 h-5 rounded-full"
+                      />
+                      <h3>{"You Burn"}</h3>
+                    </div>
+                  )}
+                </h3>
+                <Input
+                  type="text"
+                  className="border border-slate-700 rounded-xl p-8 text-2xl text-stone-400"
+                  placeholder="0"
+                  onChange={(e) => {
+                    const currentPrice = uintConverter(
+                      targetUser?.displayPrice || "6969696969"
                     );
-                    setRecievedVal(
-                      String(Math.floor(Number(inputVal) / currentPrice))
-                    );
-                    console.log("wrap true");
-                  } else {
-                    console.log("wrap false");
-                    console.log(String(Number(inputVal) * currentPrice));
-                    setRecievedVal(String(Number(inputVal) * currentPrice));
-                  }
-                }}
-              />
-              <div className="flex justify-center mb-10">
-                <Button
-                  className="absolute text-white"
-                  onClick={() => {
+                    console.log(currentPrice);
+                    const inputVal = e.target.value;
+                    setInput(inputVal);
+                    console.log(inputVal);
                     if (shouldWrap) {
-                      setShouldWrap(false);
+                      console.log(
+                        String(Math.floor(Number(inputVal) / currentPrice))
+                      );
+                      setRecievedVal(
+                        String(Math.floor(Number(inputVal) / currentPrice))
+                      );
+                      console.log("wrap true");
                     } else {
-                      setShouldWrap(true);
+                      console.log("wrap false");
+                      console.log(String(Number(inputVal) * currentPrice));
+                      setRecievedVal(String(Number(inputVal) * currentPrice));
                     }
                   }}
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 15 15"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                />
+                <div className="flex justify-center mb-10">
+                  <Button
+                    className="absolute text-white"
+                    onClick={() => {
+                      if (shouldWrap) {
+                        setShouldWrap(false);
+                      } else {
+                        setShouldWrap(true);
+                      }
+                    }}
                   >
-                    <path
-                      d="M7.5 2C7.77614 2 8 2.22386 8 2.5L8 11.2929L11.1464 8.14645C11.3417 7.95118 11.6583 7.95118 11.8536 8.14645C12.0488 8.34171 12.0488 8.65829 11.8536 8.85355L7.85355 12.8536C7.75979 12.9473 7.63261 13 7.5 13C7.36739 13 7.24021 12.9473 7.14645 12.8536L3.14645 8.85355C2.95118 8.65829 2.95118 8.34171 3.14645 8.14645C3.34171 7.95118 3.65829 7.95118 3.85355 8.14645L7 11.2929L7 2.5C7 2.22386 7.22386 2 7.5 2Z"
-                      fill="currentColor"
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </Button>
-              </div>
-              <h3 className="text-stone-400 font-bold text-sm mb-2">
-                {shouldWrap ? (
-                  <div className="flex justify-start gap-1">
-                    <img
-                      src={targetUser?.ftPfpUrl}
-                      alt=""
-                      className="w-5 h-5 rounded-full"
-                    />
-                    <h3>{"Shares Recieved"}</h3>
-                  </div>
-                ) : (
-                  "ETH Recieved"
-                )}
-              </h3>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 15 15"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M7.5 2C7.77614 2 8 2.22386 8 2.5L8 11.2929L11.1464 8.14645C11.3417 7.95118 11.6583 7.95118 11.8536 8.14645C12.0488 8.34171 12.0488 8.65829 11.8536 8.85355L7.85355 12.8536C7.75979 12.9473 7.63261 13 7.5 13C7.36739 13 7.24021 12.9473 7.14645 12.8536L3.14645 8.85355C2.95118 8.65829 2.95118 8.34171 3.14645 8.14645C3.34171 7.95118 3.65829 7.95118 3.85355 8.14645L7 11.2929L7 2.5C7 2.22386 7.22386 2 7.5 2Z"
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </Button>
+                </div>
+                <h3 className="text-stone-400 font-bold text-sm mb-2">
+                  {shouldWrap ? (
+                    <div className="flex justify-start gap-1">
+                      <img
+                        src={targetUser?.ftPfpUrl}
+                        alt=""
+                        className="w-5 h-5 rounded-full"
+                      />
+                      <h3>{"Shares Recieved"}</h3>
+                    </div>
+                  ) : (
+                    "ETH Recieved"
+                  )}
+                </h3>
 
-              <Input
-                type="text"
-                className="border border-slate-700 rounded-xl p-8 text-2xl text-stone-400"
-                placeholder="0"
-                value={recievedVal}
-              />
+                <Input
+                  type="text"
+                  className="border border-slate-700 rounded-xl p-8 text-2xl text-stone-400"
+                  placeholder="0"
+                  value={recievedVal}
+                />
 
-              <div className="flex justify-center mt-2">
-                <Button
-                  className="border border-slate-500 rounded-xl bg-black text-white hover:bg-white hover:text-black"
-                  onClick={async () => {
-                    if (shouldWrap) {
-                      await getWrapPayValue(targetUser?.address || "");
-                      wrapToken(targetUser?.address || "");
-                    } else {
-                      unwrapToken(targetUser?.address || "");
-                    }
-                  }}
-                >
-                  {shouldWrap ? "Mint" : "Burn"}
-                </Button>
+                <div className="flex justify-center mt-2">
+                  <Button
+                    className="border border-slate-500 rounded-xl bg-black text-white hover:bg-white hover:text-black"
+                    onClick={async () => {
+                      if (shouldWrap) {
+                        await getWrapPayValue(targetUser?.address || "");
+                        wrapToken(targetUser?.address || "");
+                      } else {
+                        unwrapToken(targetUser?.address || "");
+                      }
+                    }}
+                  >
+                    {shouldWrap ? "Mint" : "Burn"}
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
