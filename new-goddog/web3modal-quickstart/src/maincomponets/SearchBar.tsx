@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import SearchResults from "./SearchResults";
@@ -118,8 +119,8 @@ function SearchBar() {
 
   return (
     <div>
-      <div className="flex justify-center gap-1 lg:ms-20 ">
-        <a href="" type="button" className="mt-0.5">
+      <div className="flex justify-space-between gap-5 lg:ms-20 items:center">
+        <a href="" type="button" className="mt-1">
           <svg
             width="16"
             height="16"
@@ -137,7 +138,20 @@ function SearchBar() {
         </a>
         <Input
           type="text"
-          className="bg-stone-800 border-slate-500 rounded-full md:h-[20px]  lg:h-[20px] md:w-[300px] lg:w-[500px] text-white"
+          className={`
+          bg-stone-800 
+          border-slate-100 
+          rounded-full 
+          md:h-[20px]  
+          lg:h-[20px] 
+          md:w-[300px] 
+          lg:w-[300px] 
+          text-white
+          flex
+          justify-center
+          items-center
+          px-3
+        `}
           onClick={() => {
             console.log("Clicked");
             setTabActivate(true);
@@ -158,7 +172,21 @@ function SearchBar() {
             <>
               <Tabs
                 defaultValue="account"
-                className="w-[400px] text-white border border-slate-500 rounded-xl lg:block md:block hidden bg-black"
+                className={`
+                  w-full 
+                  md:w-3/4 
+                  lg:w-1/2 
+                  xl:w-1/3 
+                  2xl:w-[300px] 
+                  text-white 
+                  border border-slate-500 
+                  rounded-xl 
+                  block 
+                  bg-black 
+                  p-2 
+                  transition-all 
+                  duration-200
+                `}
               >
                 <TabsList className="">
                   <div className="">
@@ -191,11 +219,16 @@ function SearchBar() {
                     </TabsTrigger>
                     <TabsTrigger
                       value=""
+                      className="text-white hover:border hover:border-slate-500 rounded-xl"
                       onClick={() => {
                         setDisplaySearchTab(false);
                       }}
                     >
-                      Close
+                      <img
+                        src="https://www.friend.tech/closeIcon.svg"
+                        alt="Close"
+                        className="w-2 h-2 hover:opacity-90 transition duration-200"
+                      />
                     </TabsTrigger>
                   </div>
                 </TabsList>

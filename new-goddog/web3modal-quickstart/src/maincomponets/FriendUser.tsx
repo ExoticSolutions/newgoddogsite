@@ -351,7 +351,7 @@ function FriendUser() {
               <>
                 <div className="p-24">
                   <div className="text-center">
-                    <h3 className="text-white font-mono text-[12px]">
+                    <h3 className="text-white font-CircularXX text-[12px]">
                       Could not retrieve recent share activity
                     </h3>
                     <div className="flex justify-center">

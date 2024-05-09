@@ -17,7 +17,7 @@ function Layout() {
             alt=""
             className="w-[5%]"
           />
-          <h3 className="text-white font-mono text-[10px] mt-3">
+          <h3 className="text-white font-CIRCULARXX text-[10px] mt-3">
             Goddog @2024
           </h3>
         </div>

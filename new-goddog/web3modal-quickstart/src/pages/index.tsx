@@ -1,12 +1,9 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "@/styles/Home.module.css";
-import { useState } from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import Layout from "@/maincomponets/Layout";
 import HomePage from "@/maincomponets/HomePage";
 import FriendUser from "@/maincomponets/FriendUser";
 import FriendMint from "@/maincomponets/FriendMint";
+
 export default function Home() {
   return (
     <>
@@ -22,6 +19,7 @@ export default function Home() {
     </>
   );
 }
+
 
 //also add another feature to search by twitter user on search bar
 // plan for tm finish search bar before moving on make sure it works fine

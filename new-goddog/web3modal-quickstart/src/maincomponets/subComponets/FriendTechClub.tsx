@@ -12,7 +12,7 @@ function FriendTechClub({ result }: TopFriendTechClubs) {
             alt=""
             className="rounded-full w-9 h-9"
           />
-          <h3 className="text-white mt-2 font-mono">{result?.clubName}</h3>
+          <h3 className="text-white mt-2 font-CircularXX">{result?.clubName}</h3>
         </Link>
       </TableCell>
       <TableCell>

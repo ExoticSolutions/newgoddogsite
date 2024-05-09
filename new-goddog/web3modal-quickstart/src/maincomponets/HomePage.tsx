@@ -16,17 +16,17 @@ function HomePage() {
         }}
       >
         <div className="mt-10">
-          <h3 className="text-white flex justify-center font-bold font-mono text-center text-2xl">
+          <h3 className="text-white flex justify-center font-bold font-CIRCULARXX text-center text-2xl">
             Trade thousands of socialfi users seamlessly
           </h3>
-          <h3 className="text-white font-light font-mono text-center flex justify-center mt-3 md:text-lg sm:text-xs">
+          <h3 className="text-white font-light font-CIRCULARXX text-center flex justify-center mt-3 md:text-lg sm:text-xs">
             Seamlessly mint and burn friend.tech shares using revolutionary
             ERC-1155 token model allowing you to interact with the friend.tech
             protocol seamlessly without signing up
           </h3>
         </div>
         <div className="flex justify-center mt-5">
-          <Button className="text-white border border-stone-900 bg-blue-700 rounded-full md:w-[200px] hover:bg-lime-300 font-mono">
+          <Button className="text-white border border-stone-900 bg-blue-700 rounded-full md:w-[200px] hover:bg-lime-300 font-CIRCULARXX">
             Mint & Burn
           </Button>
         </div>
@@ -39,7 +39,7 @@ function HomePage() {
             alt=""
             className="w-10 h-10"
           />
-          <h3 className="text-white text-center font-mono underline text-[30px]">
+          <h3 className="text-white text-center font-CIRCULARXX underline text-[30px]">
             Mission
           </h3>
           <img
@@ -49,7 +49,7 @@ function HomePage() {
           />
         </div>
 
-        <h3 className="text-white text-center font-mono">
+        <h3 className="text-white text-center font-CIRCULARXX">
           Empowering users with seamless access to decentralized finance, Goddog
           fosters a frictionless, secure, and inclusive ecosystem where
           individuals can engage in social DeFi activities effortlessly across
@@ -61,11 +61,11 @@ function HomePage() {
         <div className="grid md:grid-cols-2 gap-2 ">
           <div className=" p-2">
             <div className="flex justify-center">
-              <h3 className="text-white md:text-2xl font-mono font-bold text-center mt-1">
+              <h3 className="text-white md:text-2xl font-CIRCULARXX font-bold text-center mt-1">
                 Guide to minting & burning shares
               </h3>
             </div>
-            <ul className="mt-3 font-lighter font-mono text-sm p-5">
+            <ul className="mt-3 font-lighter font-CIRCULARXX text-sm p-5">
               <li className="text-white">1. Open the FriendMint tab</li>
               <li className="text-white mt-3">
                 2. Search for desired user to mint or burn
@@ -74,7 +74,7 @@ function HomePage() {
                 3. Follow native wallet instructions to complete transactipn
               </li>
             </ul>
-            <h3 className="text-white text-center font-mono text-xs mb-3">
+            <h3 className="text-white text-center font-CIRCULARXX text-xs mb-3">
               congrats you are now a freindMint expert!
             </h3>
             <div className="flex justify-center">

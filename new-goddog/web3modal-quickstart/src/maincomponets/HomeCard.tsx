@@ -104,7 +104,7 @@ function HomeCard() {
             style={{ maxWidth: "40%" }}
           />
         </CardTitle>
-        <CardDescription className="text-xl font-mono">
+        <CardDescription className="text-xl font-CIRCULARXX">
           <h3>Goddog</h3>
           <div className="mt-1 flex justify-start text-[10px]">
             <h3 className="mt-0.5 sm:mt-0.5 md:mt-1.5">friend.tech profile</h3>
@@ -148,7 +148,7 @@ function HomeCard() {
                     alt=""
                     style={{ maxWidth: "20%" }}
                   />
-                  <div className="flex justify-start  font-mono font-light">
+                  <div className="flex justify-start  font-CIRCULARXX font-light">
                     <img
                       src="https://i.pinimg.com/originals/49/02/54/4902548424a02117b7913c17d2e379ff.gif"
                       alt=""
@@ -159,7 +159,7 @@ function HomeCard() {
                   <a
                     href="https://www.friend.tech/0x7b202496c103da5bedfe17ac8080b49bd0a333f1"
                     target="_blank"
-                    className="flex justify-start text-[10px]  font-mono font-light"
+                    className="flex justify-start text-[10px]  font-CIRCULARXX font-light"
                   >
                     <h3 className="mt-2.5">friend.tech profile</h3>
                     <img
@@ -169,11 +169,11 @@ function HomeCard() {
                     />
                   </a>
                   <div className="flex justify-start">
-                    <h3 className="mt-1 text-white text-[10px]  font-mono font-light">
+                    <h3 className="mt-1 text-white text-[10px]  font-CIRCULARXX font-light">
                       Ca: 0x7b202496C103DA5BEDFE17aC8080B49Bd0a333f1
                     </h3>
                   </div>
-                  <div className="flex justify-start border border-slate-500 mt-3 border-t-0 border-l-0 border-r-0 text-[10px] font-mono font-light">
+                  <div className="flex justify-start border border-slate-500 mt-3 border-t-0 border-l-0 border-r-0 text-[10px] font-CIRCULARXX font-light">
                     <h3 className="text-white">
                       Price: {goddogPrice} Ξ / share
                     </h3>
@@ -201,7 +201,7 @@ function HomeCard() {
                           alt=""
                           style={{ maxWidth: "7%" }}
                         />
-                        <h3 className="font-mono font-bold mt-1">Mint</h3>
+                        <h3 className="font-CIRCULARXX font-bold mt-1">Mint</h3>
                       </span>
                     </Button>
                   </div>
@@ -255,7 +255,7 @@ function HomeCard() {
                     alt=""
                     style={{ maxWidth: "20%" }}
                   />
-                  <div className="flex justify-start  font-mono font-light">
+                  <div className="flex justify-start  font-CIRCULARXX font-light">
                     <img
                       src="https://i.pinimg.com/originals/49/02/54/4902548424a02117b7913c17d2e379ff.gif"
                       alt=""
@@ -266,7 +266,7 @@ function HomeCard() {
                   <a
                     href="https://www.friend.tech/0x7b202496c103da5bedfe17ac8080b49bd0a333f1"
                     target="_blank"
-                    className="flex justify-start text-[10px]  font-mono font-light"
+                    className="flex justify-start text-[10px]  font-CIRCULARXX font-light"
                   >
                     <h3 className="mt-2.5">friend.tech profile</h3>
                     <img
@@ -276,11 +276,11 @@ function HomeCard() {
                     />
                   </a>
                   <div className="flex justify-start">
-                    <h3 className="mt-1 text-white text-[10px]  font-mono font-light">
+                    <h3 className="mt-1 text-white text-[10px]  font-CIRCULARXX font-light">
                       Ca: 0x7b202496C103DA5BEDFE17aC8080B49Bd0a333f1
                     </h3>
                   </div>
-                  <div className="flex justify-start border border-slate-500 mt-3 border-t-0 border-l-0 border-r-0 text-[10px] font-mono font-light">
+                  <div className="flex justify-start border border-slate-500 mt-3 border-t-0 border-l-0 border-r-0 text-[10px] font-CIRCULARXX font-light">
                     <h3 className="text-white">
                       Price: {goddogPrice} Ξ / share
                     </h3>
@@ -303,7 +303,7 @@ function HomeCard() {
                       }}
                     >
                       <span className="flex justify-center">
-                        <h3 className="font-mono font-bold mt-1">Burn</h3>
+                        <h3 className="font-CIRCULARXX font-bold mt-1">Burn</h3>
                         <img
                           src="https://media3.giphy.com/media/J2awouDsf23R2vo2p5/giphy.gif?cid=6c09b95271qkr9h7zeqhzcchzf0g93pzapi9qzlx1f8ha35c&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=e"
                           alt=""
