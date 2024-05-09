@@ -9,7 +9,8 @@ function HomePage() {
       <div
         className="grid grid-rows-2 p-10"
         style={{
-          backgroundImage: "url(https://i.imgur.com/BmeqKzn.gif)",
+          backgroundImage:
+            "url(https://64.media.tumblr.com/24f7eda8d9e8660ed2e74b20b18e2559/tumblr_nv2fdyCF5y1tile93o1_500.gif)",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -21,7 +22,7 @@ function HomePage() {
           <h3 className="text-white font-light font-mono text-center flex justify-center mt-3 md:text-lg sm:text-xs">
             Seamlessly mint and burn friend.tech shares using revolutionary
             ERC-1155 token model allowing you to interact with the friend.tech
-            protocol seamlessly
+            protocol seamlessly without signing up
           </h3>
         </div>
         <div className="flex justify-center mt-5">
@@ -29,6 +30,31 @@ function HomePage() {
             Mint & Burn
           </Button>
         </div>
+      </div>
+
+      <div className="border border-slate-500 p-10">
+        <div className="flex justify-center gap-2 mb-5 ">
+          <img
+            src="https://www.icegif.com/wp-content/uploads/2023/01/icegif-130.gif"
+            alt=""
+            className="w-10 h-10"
+          />
+          <h3 className="text-white text-center font-mono underline text-[30px]">
+            Mission
+          </h3>
+          <img
+            src="https://www.icegif.com/wp-content/uploads/2023/01/icegif-130.gif"
+            alt=""
+            className="w-10 h-10"
+          />
+        </div>
+
+        <h3 className="text-white text-center font-mono">
+          Empowering users with seamless access to decentralized finance, Goddog
+          fosters a frictionless, secure, and inclusive ecosystem where
+          individuals can engage in social DeFi activities effortlessly across
+          multiple blockchains.
+        </h3>
       </div>
 
       <div className="border border-slate-500 p-10">
