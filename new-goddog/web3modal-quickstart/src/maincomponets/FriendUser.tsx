@@ -68,8 +68,14 @@ function FriendUser() {
       console.log(location);
       const ca = location.pathname.slice(8, location.pathname.length);
       const query = friendTechEndpoint + `search/address/${ca}`;
+      console.log(query);
       axios
-        .get(query)
+        .get(`https://prod-api.kosetto.com/users/${ca}`, {
+          headers: {
+            Authorization:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHg5MjQ1ZDRlNzg5Y2Y5ZWY0YTJhZDE4MDJhZDlmODZkZWQzNGVjZGNiIiwiaWF0IjoxNzE1MDM5OTAwLCJleHAiOjE3MTc2MzE5MDB9.LfBn7S7_F0FTZfwg0NhNy8ZQPXG0zFpfqds-ikv-_n4",
+          },
+        })
         .then(function (results) {
           setTargetUser(results.data);
         })

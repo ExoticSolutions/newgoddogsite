@@ -27,7 +27,7 @@ function Navigation() {
           FriendMint
         </Link>
       </div>
-      <div className="mt-1.5 hidden md:block sm:hidden">
+      <div className="mt-1.5 hidden md:block sm:hidden relative">
         <SearchBar />
       </div>
       <div>

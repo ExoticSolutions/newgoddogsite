@@ -4,69 +4,117 @@ import SearchResults from "./SearchResults";
 import {
   friendTechEndpoint,
   FriendTechSearchResultsInterface,
+  ClubSearchResults,
+  uintConverter,
+  FriendTechUserSearch,
+  FriendTechContractSearch,
 } from "@/variables";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import axios from "axios";
+import { Link } from "react-router-dom";
 function SearchBar() {
-  const [value, setValue] = useState("");
-  const [isInputActive, setIsInputActive] = useState(false);
-  const [results, setResults] =
-    useState<FriendTechSearchResultsInterface | null>(null);
+  const [input, setInput] = useState("");
+  const [tabActivate, setTabActivate] = useState(false);
+  const [tabSelected, setTabSelected] = useState("");
+  const [clubSearchResults, setClubSearchResults] =
+    useState<ClubSearchResults | null>(null);
+  const [userSearchResults, setUserSearchResults] =
+    useState<FriendTechUserSearch | null>(null);
+  const [contractSearchResults, setContractSearchResults] =
+    useState<FriendTechContractSearch | null>(null);
+  const [displaySearchTab, setDisplaySearchTab] = useState(true);
+
+  //fix this and seach results componet so we dont have to use the python api
 
   useEffect(() => {
-    console.log(value);
-    if (value.length > 0) {
-      handleSearch();
-      setIsInputActive(true);
-    } else {
-      setIsInputActive(false);
+    if (/\s/.test(input)) {
+      setInput(input.replace(/\s/g, "%20"));
     }
-  }, [value]);
-
-  const handleChange = (value: string) => {
-    setValue(value);
     handleSearch();
-  };
 
-  const handleSearch = () => {
-    if (value.length > 0 && value.toLowerCase().includes("0x")) {
-      fetch(`http://127.0.0.1:8080/search/address/${value}`)
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setResults(data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else if (value.length > 0) {
-      axios
-        .get(`http://127.0.0.1:8080/search/twitter/${value}`)
-        .then((results) => {
-          const searchResponse = results.data.users;
-          console.log(searchResponse);
-          const filteredResults = filterSearchResults(searchResponse);
-          console.log(filteredResults);
-
-          setResults(filteredResults);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+    console.log(input);
+  }, [input]);
+  useEffect(() => {
+    switch (tabSelected) {
+      case "clubs":
+        setContractSearchResults(null);
+        setUserSearchResults(null);
+        break;
+      case "users":
+        setClubSearchResults(null);
+        setContractSearchResults(null);
+      case "contract":
+        setClubSearchResults(null);
+        setUserSearchResults(null);
     }
-  };
+  }, [tabSelected]);
 
-  const filterSearchResults = (
-    searchResponse: FriendTechSearchResultsInterface[]
-  ) => {
-    console.log(searchResponse);
-    const filteredResponse: FriendTechSearchResultsInterface[] =
-      searchResponse.filter((result: FriendTechSearchResultsInterface) => {
-        return result.twitterUsername.includes(value);
+  function handleSearch() {
+    switch (tabSelected) {
+      case "clubs":
+        searchClubs();
+        break;
+      case "users":
+        searchUsers();
+        break;
+      case "contract":
+        searchContract();
+        break;
+    }
+  }
+  function searchClubs() {
+    axios
+      .get(`https://prod-api.kosetto.com/search-clubs?query=${input}`, {
+        headers: {
+          Authorization:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHg5MjQ1ZDRlNzg5Y2Y5ZWY0YTJhZDE4MDJhZDlmODZkZWQzNGVjZGNiIiwiaWF0IjoxNzE1MDM5OTAwLCJleHAiOjE3MTc2MzE5MDB9.LfBn7S7_F0FTZfwg0NhNy8ZQPXG0zFpfqds-ikv-_n4",
+        },
+      })
+      .then(function (results) {
+        setClubSearchResults(results.data.clubs);
+      })
+      .catch(function (error) {
+        console.log(error);
       });
-    console.log(filteredResponse);
-
-    return filteredResponse;
-  };
+  }
+  function searchUsers() {
+    console.log(input);
+    axios
+      .get(`https://prod-api.kosetto.com/v2/search/users?username=${input}`, {
+        headers: {
+          Authorization:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHg5MjQ1ZDRlNzg5Y2Y5ZWY0YTJhZDE4MDJhZDlmODZkZWQzNGVjZGNiIiwiaWF0IjoxNzE1MDM5OTAwLCJleHAiOjE3MTc2MzE5MDB9.LfBn7S7_F0FTZfwg0NhNy8ZQPXG0zFpfqds-ikv-_n4",
+        },
+      })
+      .then(function (results) {
+        console.log(results.data.users);
+        setUserSearchResults(results.data.users);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+  function searchContract() {
+    axios
+      .get(
+        `
+      https://prod-api.kosetto.com/users/${input}`,
+        {
+          headers: {
+            Authorization:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHg5MjQ1ZDRlNzg5Y2Y5ZWY0YTJhZDE4MDJhZDlmODZkZWQzNGVjZGNiIiwiaWF0IjoxNzE1MDM5OTAwLCJleHAiOjE3MTc2MzE5MDB9.LfBn7S7_F0FTZfwg0NhNy8ZQPXG0zFpfqds-ikv-_n4",
+          },
+        }
+      )
+      .then(function (results) {
+        setContractSearchResults(results.data);
+      })
+      .catch(function (error) {
+        setContractSearchResults(null);
+        console.log(error);
+      });
+  }
 
   return (
     <div>
@@ -90,17 +138,209 @@ function SearchBar() {
         <Input
           type="text"
           className="bg-stone-800 border-slate-500 rounded-full md:h-[20px]  lg:h-[20px] md:w-[300px] lg:w-[500px] text-white"
+          onClick={() => {
+            console.log("Clicked");
+            setTabActivate(true);
+            setDisplaySearchTab(true);
+          }}
           onKeyDown={(e) => {
             if (e.key.toLowerCase() === "enter") {
-              handleSearch();
             }
           }}
           onChange={(e) => {
-            handleChange(e.target.value);
+            setInput(e.target.value);
           }}
         />
       </div>
-      <SearchResults searchResults={results} isActive={isInputActive} />
+      {tabActivate ? (
+        <>
+          {displaySearchTab ? (
+            <>
+              <Tabs
+                defaultValue="account"
+                className="w-[400px] text-white border border-slate-500 rounded-xl lg:block md:block hidden bg-black"
+              >
+                <TabsList className="">
+                  <div className="">
+                    <TabsTrigger
+                      value="clubs"
+                      className="text-white hover:border hover:border-slate-500 rounded-xl"
+                      onClick={() => {
+                        setTabSelected("clubs");
+                      }}
+                    >
+                      Clubs
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="users"
+                      className="text-white hover:border hover:border-slate-500 rounded-xl"
+                      onClick={() => {
+                        setTabSelected("users");
+                      }}
+                    >
+                      Users
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="contract"
+                      className="text-white hover:border hover:border-slate-500 rounded-xl"
+                      onClick={() => {
+                        setTabSelected("contract");
+                      }}
+                    >
+                      Contract
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value=""
+                      onClick={() => {
+                        setDisplaySearchTab(false);
+                      }}
+                    >
+                      Close
+                    </TabsTrigger>
+                  </div>
+                </TabsList>
+                <TabsContent value="clubs">
+                  {/* <h3 className="flex justify-start">
+              {clubSearchResults !== null ? "Results" : "Search by club"}
+            </h3> */}
+                  <ScrollArea className="sm:ms-auto lg:ms-20 border border-transparent bg-black w-full h-[140px] text-white text-xs">
+                    {clubSearchResults !== null &&
+                    tabSelected === "clubs" &&
+                    clubSearchResults.length > 0 ? (
+                      <>
+                        <div className="grid grid-flow-row">
+                          {clubSearchResults.map(
+                            (item: ClubSearchResults, index: number) => {
+                              return (
+                                <>
+                                  <div
+                                    className="border border-slate-500 p-2"
+                                    key={index}
+                                  >
+                                    <div className="grid grid-cols-3 gap-1 text-white">
+                                      <div>
+                                        <img
+                                          src={item?.clubPfpUrl}
+                                          alt=""
+                                          className="w-8 h-8 rounded-full"
+                                        />
+                                      </div>
+                                      <div>{item?.clubName}</div>
+                                      <div className="flex justify-center">
+                                        {uintConverter(
+                                          item?.pointsPrice
+                                        ).toFixed(2)}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </>
+                              );
+                            }
+                          )}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="flex justify-center p-10">
+                        <h3 className="text-white">No Results Found</h3>
+                      </div>
+                    )}
+                  </ScrollArea>
+                </TabsContent>
+                <TabsContent value="users">
+                  <h3 className="text-center">Search by user</h3>
+                  <ScrollArea className="sm:ms-auto lg:ms-20 border border-transparent bg-black w-full h-[140px] text-white text-xs">
+                    {userSearchResults !== null ? (
+                      <>
+                        <div className="grid grid-flow-row">
+                          {userSearchResults.map(
+                            (item: FriendTechUserSearch, index: number) => {
+                              return (
+                                <>
+                                  <div
+                                    className="border border-slate-500 p-2"
+                                    key={index}
+                                  >
+                                    <Link
+                                      to={`/friend/${item?.address}`}
+                                      className="grid grid-cols-3 gap-1 text-white"
+                                      onClick={() => {
+                                        setDisplaySearchTab(false);
+                                      }}
+                                    >
+                                      <div>
+                                        <img
+                                          src={item?.ftPfpUrl}
+                                          alt=""
+                                          className="w-8 h-8 rounded-full"
+                                        />
+                                      </div>
+                                      <div className="text-white">
+                                        {item?.ftUsername}
+                                      </div>
+                                      <div className="flex justify-center">
+                                        {uintConverter(item?.displayPrice)}
+                                      </div>
+                                    </Link>
+                                  </div>
+                                </>
+                              );
+                            }
+                          )}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="flex justify-center p-10">
+                        <h3 className="text-white">No Results Found</h3>
+                      </div>
+                    )}
+                  </ScrollArea>
+                </TabsContent>
+                <TabsContent value="contract">
+                  <h3 className="text-center">Search by contract</h3>
+                  {contractSearchResults ? (
+                    <>
+                      <ScrollArea className="sm:ms-auto lg:ms-20 border border-transparent bg-black w-full h-[140px] text-white text-xs">
+                        <div className="grid grid-flow-row">
+                          <div className="border border-slate-500 p-2">
+                            <Link
+                              to={`/friend/${contractSearchResults?.address}`}
+                              className="grid grid-cols-3 gap-1 text-white"
+                              onClick={() => {
+                                setDisplaySearchTab(false);
+                              }}
+                            >
+                              <div>
+                                <img
+                                  src={contractSearchResults?.ftPfpUrl}
+                                  alt=""
+                                  className="w-8 h-8 rounded-full"
+                                />
+                              </div>
+                              <div className="text-white">
+                                {contractSearchResults?.ftUsername}
+                              </div>
+                              <div className="flex justify-center">
+                                {uintConverter(
+                                  contractSearchResults?.displayPrice
+                                )}
+                              </div>
+                            </Link>
+                          </div>
+                        </div>
+                      </ScrollArea>
+                    </>
+                  ) : (
+                    <div className="flex justify-center p-10">
+                      <h3 className="text-white">No Results Found</h3>
+                    </div>
+                  )}
+                </TabsContent>
+              </Tabs>
+            </>
+          ) : null}
+        </>
+      ) : null}
+      {/* <SearchResults searchResults={results} isActive={isInputActive} /> */}
     </div>
   );
 }

@@ -3,6 +3,8 @@ import { FriendTechSearchResultsInterface, uintConverter } from "@/variables";
 import { TableCell } from "@/components/ui/table";
 import { Link } from "react-router-dom";
 //if u get error for the prop just declare in interfact and put type any
+//all thats left is to get club information to display it seperatly
+//also do a set timeout with loading animation to prevent images from rendering while calling api so everything is ready when rendered
 function FriendTechTrendingUser({ result }: FriendTechSearchResultsInterface) {
   console.log(result);
   return (

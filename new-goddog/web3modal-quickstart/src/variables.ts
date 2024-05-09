@@ -27,6 +27,23 @@ export interface FriendTechSearchResultsInterface {
   searchResults: any;
 }
 
+export interface FriendTechUserSearch {
+  address: string;
+  ftPfpUrl: string;
+  ftUsername: string;
+  ftName: string;
+  displayPrice: string;
+  map: any;
+}
+
+export interface ClubSearchResults {
+  clubId: string;
+  clubName: string;
+  clubPfpUrl: string;
+  pointsPrice: string;
+  map: any;
+}
+
 export interface TopFriendTechClubs {
   clubId: string;
   clubName: string;
@@ -63,6 +80,30 @@ export interface FriendTechTvl {
   date: string;
   totalLiquidity: any;
   data: any;
+}
+export interface FriendTechContractSearch {
+  id: number;
+  address: string;
+  twitterUsername: string;
+  twitterName: string;
+  twitterPfpUrl: string;
+  twitterUserId: string;
+  ftUsername: string;
+  ftName: string;
+  ftPfpUrl: string;
+  lastOnline: string;
+  lastMessageTime: number;
+  holderCount: number;
+  holdingCount: number;
+  watchListCount: number;
+  followerCount: number;
+  follwingCount: number;
+  shareSupply: number;
+  displayPrice: string;
+  netBuy: string;
+  lifetimeFeesCollectedInWei: string;
+  userBio: string;
+  rank: number;
 }
 
 export interface FriendTechFollowers {
