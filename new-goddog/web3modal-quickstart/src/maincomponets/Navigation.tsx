@@ -23,14 +23,12 @@ import {
 } from "@/components/ui/dialog";
 
 function Navigation() {
-  // <w3m-button />
-  // <w3m-network-button />
   return (
     <div
       className="flex justify-between p-2 font-light"
       style={{ fontSize: "13px" }}
     >
-      <div className="flex justify-start gap-2">
+      <div className="flex justify-start gap-4">
         <a href="/">
           <img
             src="https://dd.dexscreener.com/ds-data/tokens/base/0xddf7d080c82b8048baae54e376a3406572429b4e.png?size=lg&key=18ea46"

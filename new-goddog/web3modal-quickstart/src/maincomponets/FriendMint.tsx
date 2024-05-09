@@ -59,13 +59,12 @@ function FriendMint() {
     <div className="container">
       <div className="p-14">
         <div className=" flex justify-center">
-          <h3 className="text-white text-2xl font-mono text-center">
-            Explore & Mint your favorite Friend.Tech profiles as ERC-1155s
-            through FrenMint!
+          <h3 className="text-white text-2xl font-CircularXX text-center">
+            Mint your favorite friend.tech profiles as ERC-1155s with FrenMint!
           </h3>
         </div>
-        <div className="flex justify-center gap-1 font-mono">
-          <h3 className="text-white mt-2">Onchain summer powered by</h3>
+        <div className="flex justify-center gap-1 font-CircularXX">
+          <h3 className="text-white mt-2">Onchain Summer On god, On god. Powered by</h3>
           <img
             src="https://avatars.githubusercontent.com/u/108554348?s=280&v=4"
             alt=""
@@ -73,11 +72,11 @@ function FriendMint() {
           />
         </div>
       </div>
-      {/* //in friend tehc user swap make a follower element displays who followiths with ft ppfp url  with at least 4 images showing then shows how may more followers ex: +1000 or +4 */}
+      {/* //in friend tech user swap make a follower element displays who followiths with ft ppfp url  with at least 4 images showing then shows how may more followers ex: +1000 or +4 */}
       <div className="border border-slate-500 rounded-xl mt-2 p-7">
         <FriendTechTvlChart />
         <div className="flex justify-end gap-2">
-          <h3 className="text-white font-mono text-[10px] mt-2">Powered by</h3>
+          <h3 className="text-white font-CircularXX text-[10px] mt-2">Powered by</h3>
           <img
             src="https://defillama.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo_white_long.74912819.png&w=384&q=75"
             alt=""
@@ -101,7 +100,7 @@ function FriendMint() {
                     alt=""
                     className="w-14  mt-[75px]"
                   />
-                  <h3 className="text-white mt-[100px] font-bold">GodDog</h3>
+                  <h3 className="text-white mt-[100px] font-bold">GODDOG</h3>
                 </div>
               </div>
               <CardDescription></CardDescription>
@@ -121,7 +120,7 @@ function FriendMint() {
         <div className="">
           {trendingUsers !== null ? (
             <>
-              <h3 className="text-center text-white font-mono underline mb-2 text-[20px] font-bold">
+              <h3 className="text-center text-white font-CircularXX mb-2 text-[20px]">
                 Trending users
               </h3>
               <ScrollArea className="h-[500px] w-50 border border-slate-500 rounded-xl">
@@ -159,7 +158,7 @@ function FriendMint() {
         <div>
           {topClubs !== null ? (
             <>
-              <h3 className="text-center text-white font-mono font-bold underline mb-2 text-[20px]">
+              <h3 className="text-center text-white font-CircularXX mb-2 text-[20px]">
                 Trending clubs
               </h3>
               <ScrollArea className="h-[500px] w-50 border border-slate-500 rounded-xl">
