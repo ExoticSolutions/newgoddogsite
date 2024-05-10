@@ -1,18 +1,3 @@
-import React, { useEffect, useState } from "react";
-import {
-  FriendTechSearchResultsInterface,
-  friendTechEndpoint,
-  TopFriendTechClubs,
-} from "@/variables";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import {
   Card,
   CardContent,
@@ -21,17 +6,29 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  FriendTechSearchResultsInterface,
+  TopFriendTechClubs,
+} from "@/variables";
+import { useEffect, useState } from "react";
 
 import axios from "axios";
-import FriendTechTrendingUser from "./subComponets/FriendTechTrendingUser";
 import FriendTechClub from "./subComponets/FriendTechClub";
+import FriendTechTrendingUser from "./subComponets/FriendTechTrendingUser";
 import FriendTechTvlChart from "./subComponets/FriendTechTvlChart";
 function FriendMint() {
   const [trendingUsers, setTrendingUsers] =
     useState<FriendTechSearchResultsInterface | null>(null);
   const [topClubs, setTopClubs] = useState<TopFriendTechClubs | null>(null);
+  const [globalActivity, setGlobalActivity] = useState(null);
   useEffect(() => {
     const query = "https://prod-api.kosetto.com/lists/trending";
     console.log(query);
@@ -55,6 +52,20 @@ function FriendMint() {
         console.log(error);
       });
   }, []);
+
+  useEffect(() => {
+    axios
+      .get(`https://prod-api.kosetto.com/global-activity-v2`, {
+        headers: {
+          Authorization:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHg5MjQ1ZDRlNzg5Y2Y5ZWY0YTJhZDE4MDJhZDlmODZkZWQzNGVjZGNiIiwiaWF0IjoxNzE1MDM5OTAwLCJleHAiOjE3MTc2MzE5MDB9.LfBn7S7_F0FTZfwg0NhNy8ZQPXG0zFpfqds-ikv-_n4",
+        },
+      })
+      .then(function (results) {
+        setGlobalActivity(results.data.events);
+      })
+      .catch(function (error) {});
+  });
   return (
     <div className="container">
       <div className="p-14">
@@ -64,7 +75,9 @@ function FriendMint() {
           </h3>
         </div>
         <div className="flex justify-center gap-1 font-CircularXX">
-          <h3 className="text-white mt-2">Onchain Summer On god, On god. Powered by</h3>
+          <h3 className="text-white mt-2">
+            Onchain Summer On god, On god. Powered by
+          </h3>
           <img
             src="https://avatars.githubusercontent.com/u/108554348?s=280&v=4"
             alt=""
@@ -73,10 +86,12 @@ function FriendMint() {
         </div>
       </div>
       {/* //in friend tech user swap make a follower element displays who followiths with ft ppfp url  with at least 4 images showing then shows how may more followers ex: +1000 or +4 */}
-      <div className="border border-slate-500 rounded-xl mt-2 p-7">
+      <div className="container border border-slate-500 rounded-xl mt-2 p-7">
         <FriendTechTvlChart />
         <div className="flex justify-end gap-2">
-          <h3 className="text-white font-CircularXX text-[10px] mt-2">Powered by</h3>
+          <h3 className="text-white font-CircularXX text-[10px] mt-2">
+            Powered by
+          </h3>
           <img
             src="https://defillama.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo_white_long.74912819.png&w=384&q=75"
             alt=""
@@ -187,6 +202,126 @@ function FriendMint() {
                 </Table>
               </ScrollArea>
             </>
+          ) : null}
+        </div>
+      </div>
+      <h3 className="mt-10 text-white text-center text-[20px]">
+        Global Activity
+      </h3>
+      <div className="container border border-slate-500 rounded-xl mt-2 p-2">
+        <div className="flex justify-center ">
+          {globalActivity ? (
+            <ScrollArea className="p-5 h-[500px]">
+              <div className="grid grid-cols-4 gap-3">
+                {(globalActivity as any[]).map((item: any, index: any) => {
+                  if (item?.club) {
+                    return (
+                      <Card
+                        key={index}
+                        className="border border-slate-500 w-[200px] h-[200px] p-2 rounded-xl bg-black"
+                      >
+                        <CardHeader>
+                          <CardTitle>
+                            <img
+                              src={item?.trader.ftPfpUrl}
+                              alt=""
+                              className="w-10 h-10 rounded-full"
+                            />
+                          </CardTitle>
+                          <CardDescription className="mt-2">
+                            <a
+                              href={`https://www.friend.tech/${item?.trader.address}`}
+                              target="_blank"
+                              className="text-white text-[10.5px] text-start hover:underline"
+                            >
+                              {item?.trader.ftName}
+                            </a>
+                            <h3 className="text-white text-[12px] text-start">
+                              Club
+                            </h3>
+
+                            <div className="flex justify-start gap-2">
+                              <a
+                                href={`https://www.friend.tech/clubs/${item?.club.clubId}`}
+                                target="_blank"
+                                className="text-stone-500 hover:underline"
+                              >
+                                #{item?.club.clubId}
+                              </a>
+                              <img
+                                src={item?.club.pfpUrl}
+                                alt=""
+                                className="w-5 h-5 rounded-full"
+                              />
+                            </div>
+                            <div className="flex justify-start gap-2 mt-2">
+                              <img
+                                src="https://www.friend.tech/friendLogo.png"
+                                alt=""
+                                className="w-4 h-4 rounded-full"
+                              />
+                              <h3 className="text-white text-[10px]">
+                                Key Amount: {item?.keysAmount}
+                              </h3>
+                            </div>
+                          </CardDescription>
+                        </CardHeader>
+                      </Card>
+                    );
+                  }
+                  return (
+                    <Card
+                      key={index}
+                      className="border border-slate-500 w-[200px] h-[200px] p-8 rounded-xl bg-black"
+                    >
+                      <CardTitle>
+                        <img
+                          src={item?.trader.ftPfpUrl}
+                          alt=""
+                          className="w-10 h-10 rounded-full"
+                        />
+                      </CardTitle>
+                      <CardDescription className="mt-2">
+                        <a
+                          href={`https://www.friend.tech/${item?.trader.address}`}
+                          className="text-white text-[10.5px] text-start hover:underline"
+                        >
+                          {item?.trader.ftName}
+                        </a>
+                        <h3 className="text-white text-[12px] text-start">
+                          Share
+                        </h3>
+
+                        <div className="flex justify-start gap-2">
+                          <a
+                            href={`https://www.friend.tech/${item?.subject.address}`}
+                            target="_blank"
+                            className="text-stone-500 text-[10px]"
+                          >
+                            {item?.subject.ftName}
+                          </a>
+                          <img
+                            src={item?.subject.ftPfpUrl}
+                            alt=""
+                            className="w-5 h-5 rounded-full"
+                          />
+                        </div>
+                        <div className="flex justify-start gap-2 mt-2">
+                          <img
+                            src="https://www.friend.tech/friendLogo.png"
+                            alt=""
+                            className="w-4 h-4 rounded-full"
+                          />
+                          <h3 className="text-white text-[10px]">
+                            Share Amount: {item?.shareAmount}
+                          </h3>
+                        </div>
+                      </CardDescription>
+                    </Card>
+                  );
+                })}
+              </div>
+            </ScrollArea>
           ) : null}
         </div>
       </div>

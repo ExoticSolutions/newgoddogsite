@@ -3,6 +3,7 @@ import Layout from "@/maincomponets/Layout";
 import HomePage from "@/maincomponets/HomePage";
 import FriendUser from "@/maincomponets/FriendUser";
 import FriendMint from "@/maincomponets/FriendMint";
+import FriendClub from "@/maincomponets/subComponets/FriendClub";
 
 export default function Home() {
   return (
@@ -13,13 +14,13 @@ export default function Home() {
             <Route path="/" element={<HomePage />} />
             <Route path="/friend/:address" element={<FriendUser />} />
             <Route path="/friendmint" element={<FriendMint />} />
+            <Route path="/club/:id" element={<FriendClub />} />
           </Route>
         </Routes>
       </HashRouter>
     </>
   );
 }
-
 
 //also add another feature to search by twitter user on search bar
 // plan for tm finish search bar before moving on make sure it works fine

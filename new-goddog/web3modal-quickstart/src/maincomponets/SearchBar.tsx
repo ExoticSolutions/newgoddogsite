@@ -157,10 +157,6 @@ function SearchBar() {
             setTabActivate(true);
             setDisplaySearchTab(true);
           }}
-          onKeyDown={(e) => {
-            if (e.key.toLowerCase() === "enter") {
-            }
-          }}
           onChange={(e) => {
             setInput(e.target.value);
           }}
@@ -169,207 +165,187 @@ function SearchBar() {
       {tabActivate ? (
         <>
           {displaySearchTab ? (
-            <>
-              <Tabs
-                defaultValue="account"
-                className={`
-                  w-full 
-                  md:w-3/4 
-                  lg:w-1/2 
-                  xl:w-1/3 
-                  2xl:w-[300px] 
-                  text-white 
-                  border border-slate-500 
-                  rounded-xl 
-                  block 
-                  bg-black 
-                  p-2 
-                  transition-all 
-                  duration-200
-                `}
-              >
-                <TabsList className="">
-                  <div className="">
-                    <TabsTrigger
-                      value="clubs"
-                      className="text-white hover:border hover:border-slate-500 rounded-xl"
-                      onClick={() => {
-                        setTabSelected("clubs");
-                      }}
-                    >
-                      Clubs
-                    </TabsTrigger>
-                    <TabsTrigger
-                      value="users"
-                      className="text-white hover:border hover:border-slate-500 rounded-xl"
-                      onClick={() => {
-                        setTabSelected("users");
-                      }}
-                    >
-                      Users
-                    </TabsTrigger>
-                    <TabsTrigger
-                      value="contract"
-                      className="text-white hover:border hover:border-slate-500 rounded-xl"
-                      onClick={() => {
-                        setTabSelected("contract");
-                      }}
-                    >
-                      Contract
-                    </TabsTrigger>
-                    <TabsTrigger
-                      value=""
-                      className="text-white hover:border hover:border-slate-500 rounded-xl"
-                      onClick={() => {
-                        setDisplaySearchTab(false);
-                      }}
-                    >
-                      <img
-                        src="https://www.friend.tech/closeIcon.svg"
-                        alt="Close"
-                        className="w-2 h-2 hover:opacity-90 transition duration-200"
-                      />
-                    </TabsTrigger>
-                  </div>
-                </TabsList>
-                <TabsContent value="clubs">
-                  {/* <h3 className="flex justify-start">
-              {clubSearchResults !== null ? "Results" : "Search by club"}
-            </h3> */}
-                  <ScrollArea className="sm:ms-auto lg:ms-20 border border-transparent bg-black w-full h-[140px] text-white text-xs">
-                    {clubSearchResults !== null &&
-                    tabSelected === "clubs" &&
-                    clubSearchResults.length > 0 ? (
-                      <>
-                        <div className="grid grid-flow-row">
-                          {clubSearchResults.map(
-                            (item: ClubSearchResults, index: number) => {
-                              return (
-                                <>
-                                  <div
-                                    className="border border-slate-500 p-2"
-                                    key={index}
-                                  >
-                                    <div className="grid grid-cols-3 gap-1 text-white">
-                                      <div>
-                                        <img
-                                          src={item?.clubPfpUrl}
-                                          alt=""
-                                          className="w-8 h-8 rounded-full"
-                                        />
-                                      </div>
-                                      <div>{item?.clubName}</div>
-                                      <div className="flex justify-center">
-                                        {uintConverter(
-                                          item?.pointsPrice
-                                        ).toFixed(2)}
-                                      </div>
-                                    </div>
-                                  </div>
-                                </>
-                              );
-                            }
-                          )}
-                        </div>
-                      </>
-                    ) : (
-                      <div className="flex justify-center p-10">
-                        <h3 className="text-white">No Results Found</h3>
-                      </div>
-                    )}
-                  </ScrollArea>
-                </TabsContent>
-                <TabsContent value="users">
-                  <h3 className="text-center">Search by user</h3>
-                  <ScrollArea className="sm:ms-auto lg:ms-20 border border-transparent bg-black w-full h-[140px] text-white text-xs">
-                    {userSearchResults !== null ? (
-                      <>
-                        <div className="grid grid-flow-row">
-                          {userSearchResults.map(
-                            (item: FriendTechUserSearch, index: number) => {
-                              return (
-                                <>
-                                  <div
-                                    className="border border-slate-500 p-2"
-                                    key={index}
-                                  >
-                                    <Link
-                                      to={`/friend/${item?.address}`}
-                                      className="grid grid-cols-3 gap-1 text-white"
-                                      onClick={() => {
-                                        setDisplaySearchTab(false);
-                                      }}
-                                    >
-                                      <div>
-                                        <img
-                                          src={item?.ftPfpUrl}
-                                          alt=""
-                                          className="w-8 h-8 rounded-full"
-                                        />
-                                      </div>
-                                      <div className="text-white">
-                                        {item?.ftUsername}
-                                      </div>
-                                      <div className="flex justify-center">
-                                        {uintConverter(item?.displayPrice)}
-                                      </div>
-                                    </Link>
-                                  </div>
-                                </>
-                              );
-                            }
-                          )}
-                        </div>
-                      </>
-                    ) : (
-                      <div className="flex justify-center p-10">
-                        <h3 className="text-white">No Results Found</h3>
-                      </div>
-                    )}
-                  </ScrollArea>
-                </TabsContent>
-                <TabsContent value="contract">
-                  <h3 className="text-center">Search by contract</h3>
-                  {contractSearchResults ? (
-                    <>
-                      <ScrollArea className="sm:ms-auto lg:ms-20 border border-transparent bg-black w-full h-[140px] text-white text-xs">
-                        <div className="grid grid-flow-row">
-                          <div className="border border-slate-500 p-2">
+            <Tabs
+              defaultValue="account"
+              className={`
+            
+            text-white 
+            border border-slate-500 
+            rounded-xl 
+            block 
+            bg-black 
+            p-2 
+           
+          `}
+            >
+              <TabsList className="">
+                <div className="">
+                  <TabsTrigger
+                    value="clubs"
+                    className="text-white hover:border hover:border-slate-500 rounded-xl"
+                    onClick={() => {
+                      setTabSelected("clubs");
+                    }}
+                  >
+                    Clubs
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="users"
+                    className="text-white hover:border hover:border-slate-500 rounded-xl"
+                    onClick={() => {
+                      setTabSelected("users");
+                    }}
+                  >
+                    Users
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="contract"
+                    className="text-white hover:border hover:border-slate-500 rounded-xl"
+                    onClick={() => {
+                      setTabSelected("contract");
+                    }}
+                  >
+                    Contract
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value=""
+                    className="text-white hover:border hover:border-slate-500 rounded-xl"
+                    onClick={() => {
+                      setDisplaySearchTab(false);
+                    }}
+                  >
+                    <img
+                      src="https://www.friend.tech/closeIcon.svg"
+                      alt="Close"
+                      className="w-2 h-2 hover:opacity-90 transition duration-200"
+                    />
+                  </TabsTrigger>
+                </div>
+              </TabsList>
+              <TabsContent value="clubs">
+                {/* <h3 className="flex justify-start">
+        {clubSearchResults !== null ? "Results" : "Search by club"}
+      </h3> */}
+                <ScrollArea className="sm:ms-auto lg:ms-20 border border-transparent bg-black w-full h-[140px] text-white text-xs">
+                  {clubSearchResults !== null &&
+                  tabSelected === "clubs" &&
+                  clubSearchResults.length > 0 ? (
+                    <div className="grid grid-flow-row">
+                      {clubSearchResults.map(
+                        (item: ClubSearchResults, index: number) => {
+                          return (
                             <Link
-                              to={`/friend/${contractSearchResults?.address}`}
-                              className="grid grid-cols-3 gap-1 text-white"
-                              onClick={() => {
-                                setDisplaySearchTab(false);
-                              }}
+                              to={`/club/${item?.clubId}`}
+                              className="border border-slate-500 p-2"
+                              key={index}
                             >
-                              <div>
-                                <img
-                                  src={contractSearchResults?.ftPfpUrl}
-                                  alt=""
-                                  className="w-8 h-8 rounded-full"
-                                />
-                              </div>
-                              <div className="text-white">
-                                {contractSearchResults?.ftUsername}
-                              </div>
-                              <div className="flex justify-center">
-                                {uintConverter(
-                                  contractSearchResults?.displayPrice
-                                )}
+                              <div className="grid grid-cols-3 gap-1 text-white">
+                                <div>
+                                  <img
+                                    src={item?.clubPfpUrl}
+                                    alt=""
+                                    className="w-8 h-8 rounded-full"
+                                  />
+                                </div>
+                                <div>{item?.clubName}</div>
+                                <div className="flex justify-center">
+                                  {uintConverter(item?.pointsPrice).toFixed(2)}
+                                </div>
                               </div>
                             </Link>
-                          </div>
-                        </div>
-                      </ScrollArea>
-                    </>
+                          );
+                        }
+                      )}
+                    </div>
                   ) : (
                     <div className="flex justify-center p-10">
                       <h3 className="text-white">No Results Found</h3>
                     </div>
                   )}
-                </TabsContent>
-              </Tabs>
-            </>
+                </ScrollArea>
+              </TabsContent>
+              <TabsContent value="users">
+                <h3 className="text-center">Search by user</h3>
+                <ScrollArea className="sm:ms-auto lg:ms-20 border border-transparent bg-black w-full h-[140px] text-white text-xs">
+                  {userSearchResults !== null ? (
+                    <div className="grid grid-flow-row">
+                      {userSearchResults.map(
+                        (item: FriendTechUserSearch, index: number) => {
+                          return (
+                            <div
+                              className="border border-slate-500 p-2"
+                              key={index}
+                            >
+                              <Link
+                                to={`/friend/${item?.address}`}
+                                className="grid grid-cols-3 gap-1 text-white"
+                                onClick={() => {
+                                  setDisplaySearchTab(false);
+                                }}
+                              >
+                                <div>
+                                  <img
+                                    src={item?.ftPfpUrl}
+                                    alt=""
+                                    className="w-8 h-8 rounded-full"
+                                  />
+                                </div>
+                                <div className="text-white">
+                                  {item?.ftUsername}
+                                </div>
+                                <div className="flex justify-center">
+                                  {uintConverter(item?.displayPrice)}
+                                </div>
+                              </Link>
+                            </div>
+                          );
+                        }
+                      )}
+                    </div>
+                  ) : (
+                    <div className="flex justify-center p-10">
+                      <h3 className="text-white">No Results Found</h3>
+                    </div>
+                  )}
+                </ScrollArea>
+              </TabsContent>
+              <TabsContent value="contract">
+                <h3 className="text-center">Search by contract</h3>
+                {contractSearchResults ? (
+                  <ScrollArea className="sm:ms-auto lg:ms-20 border border-transparent bg-black w-full h-[140px] text-white text-xs">
+                    <div className="grid grid-flow-row">
+                      <div className="border border-slate-500 p-2">
+                        <Link
+                          to={`/friend/${contractSearchResults?.address}`}
+                          className="grid grid-cols-3 gap-1 text-white"
+                          onClick={() => {
+                            setDisplaySearchTab(false);
+                          }}
+                        >
+                          <div>
+                            <img
+                              src={contractSearchResults?.ftPfpUrl}
+                              alt=""
+                              className="w-8 h-8 rounded-full"
+                            />
+                          </div>
+                          <div className="text-white">
+                            {contractSearchResults?.ftUsername}
+                          </div>
+                          <div className="flex justify-center">
+                            {uintConverter(contractSearchResults?.displayPrice)}
+                          </div>
+                        </Link>
+                      </div>
+                    </div>
+                  </ScrollArea>
+                ) : (
+                  <div className="flex justify-center p-10">
+                    <h3 className="text-white">No Results Found</h3>
+                  </div>
+                )}
+              </TabsContent>
+            </Tabs>
           ) : null}
         </>
       ) : null}

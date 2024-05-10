@@ -42,6 +42,7 @@ export interface ClubSearchResults {
   clubPfpUrl: string;
   pointsPrice: string;
   map: any;
+  length: any;
 }
 
 export interface TopFriendTechClubs {
@@ -120,6 +121,29 @@ export interface FriendTechFollowers {
   item: any;
   length: number;
 }
+
+export interface SpecificClub {
+  clubId: string;
+  clubName: string;
+  clubPfpUrl: string;
+  clubDescription: string;
+  membersCount: number;
+  createdAt: number;
+  coefficient: string;
+  lastMessageTime: string;
+  creator: {
+    id: number;
+    address: string;
+    twitterUsername: any;
+    twitterPfpUrl: string;
+    twitterUserId: any;
+    ftUserName: string;
+    ftName: string;
+    ftPfpUrl: string;
+  };
+  map: any;
+}
+
 export interface FriendTechUserActivity {
   date: string;
   price: number;
