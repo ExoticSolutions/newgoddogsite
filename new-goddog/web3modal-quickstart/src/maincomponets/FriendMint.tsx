@@ -232,7 +232,7 @@ function FriendMint() {
                             <a
                               href={`https://www.friend.tech/${item?.trader.address}`}
                               target="_blank"
-                              className="text-white text-[10.5px] text-start hover:underline"
+                              className={`text-white ${item?.trader.ftName.length > 16 ? "text-[8px]" : "text-[10.5px]"} text-start hover:underline`}
                             >
                               {item?.trader.ftName}
                             </a>
